@@ -1,0 +1,58 @@
+
+.sprotty-node {
+    fill: #aae;
+    stroke: #66b;
+    stroke-width: 3;
+}
+
+.sprotty-text {
+    font-size: 16pt;
+    text-anchor: middle;
+}
+
+.sprotty-edge {
+    fill: none;
+    stroke: #488;
+    stroke-width: 2;
+}
+
+.sprotty-node.mouseover {
+    stroke-width: 6;
+}
+
+.sprotty-node.selected {
+    stroke: #dd8;
+    stroke-width: 6;
+}
+
+.sprotty-missing {
+    stroke-width: 1;
+    stroke: #f00;
+    fill: #f00;
+    font-family: SansSerif, sans-serif;
+    font-size: 14pt;
+    text-anchor: middle;
+}
+
+/*.copyright {*/
+/*  margin-top: 10px;*/
+/*  text-align: right;*/
+/*  font-size: 10px;*/
+/*  color: #888;*/
+/*}*/
+
+/*.help {*/
+/*  margin-top: 24px;*/
+/*  text-align: right;*/
+/*  font-size: 16px;*/
+/*  color: #888;*/
+/*}*/
+
+svg {
+    margin-top: 15px;
+    width: 100%;
+    height: 500px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #bbb;
+}
