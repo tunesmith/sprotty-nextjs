@@ -1,13 +1,21 @@
 import {
   Bounds,
+  getBasicType,
   Point,
   SEdge,
+  SelectAction,
   SGraph,
   SModelElement,
   SNode,
 } from "sprotty-protocol";
 import createContainer from "./di.config";
-import { IActionDispatcher, LocalModelSource, TYPES } from "sprotty";
+import {
+  ElementMove,
+  IActionDispatcher,
+  LocalModelSource,
+  MoveAction,
+  TYPES,
+} from "sprotty";
 import { useEffect } from "react";
 
 const NODE_SIZE = 60;
@@ -86,13 +94,68 @@ const Sprotty = () => {
     load().then();
   }, []);
 
+  const addNodeHandler = async () => {
+    let viewport = await modelSource.getViewport();
+    let newElements = addNode(getVisibleBounds(viewport));
+    await modelSource.addElements(newElements);
+    await dispatcher.dispatch(
+      SelectAction.create({ selectedElementsIDs: newElements.map((e) => e.id) })
+    );
+    focusGraph();
+  };
+
+  const scrambleAllHandler = async () => {
+    const viewport = await modelSource.getViewport();
+    const bounds = getVisibleBounds(viewport);
+    const nodeMoves: ElementMove[] = [];
+    graph.children.forEach((shape) => {
+      if (getBasicType(shape) === "node") {
+        nodeMoves.push({
+          elementId: shape.id,
+          toPosition: {
+            x: bounds.x + Math.random() * (bounds.width - NODE_SIZE),
+            y: bounds.y + Math.random() * (bounds.height - NODE_SIZE),
+          },
+        });
+      }
+    });
+    await dispatcher.dispatch(MoveAction.create(nodeMoves, { animate: true }));
+    focusGraph();
+  };
+
+  const scrambleSelectionHandler = async () => {
+    const selection = await modelSource.getSelection();
+    const viewport = await modelSource.getViewport();
+    const bounds = getVisibleBounds(viewport);
+    const nodeMoves: ElementMove[] = [];
+    selection.forEach((shape) => {
+      if (getBasicType(shape) === "node") {
+        nodeMoves.push({
+          elementId: shape.id,
+          toPosition: {
+            x: bounds.x + Math.random() * (bounds.width - NODE_SIZE),
+            y: bounds.y + Math.random() * (bounds.height - NODE_SIZE),
+          },
+        });
+      }
+    });
+    await dispatcher.dispatch(MoveAction.create(nodeMoves, { animate: true }));
+    focusGraph();
+  };
+
   return (
     <div>
       <h1>Sprotty Circles Example</h1>
       <p>
-        <button id="addNode">Add node</button>
-        <button id="scrambleAll">Scramble all</button>
-        <button id="scrambleSelection">Scramble selection</button>
+        <button id="addNode" onClick={addNodeHandler}>
+          Add node
+        </button>
+        <button id="scrambleAll" onClick={scrambleAllHandler}>
+          Scramble all
+        </button>
+        <button id="scrambleSelection" onClick={scrambleSelectionHandler}>
+          Scramble selection
+        </button>
       </p>
       <div>
         <div id="sprotty" className="sprotty" />
