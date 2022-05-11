@@ -1,4 +1,6 @@
 import { Bounds, Point, SEdge, SModelElement, SNode } from "sprotty-protocol";
+import createContainer from "./di.config";
+import { IActionDispatcher, LocalModelSource, TYPES } from "sprotty";
 
 const NODE_SIZE = 60;
 
@@ -48,6 +50,10 @@ const Sprotty = () => {
       height: canvasBounds.height / zoom,
     };
   }
+
+  const container = createContainer();
+  const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
+  const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
 
   return (
     <div>

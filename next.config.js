@@ -1,6 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const { withGlobalCss } = require("next-global-css");
 
-module.exports = nextConfig
+const withConfig = withGlobalCss();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = withConfig({
+  reactStrictMode: true,
+});
+
+module.exports = nextConfig;

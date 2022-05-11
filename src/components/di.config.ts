@@ -1,4 +1,5 @@
 import { Container, ContainerModule } from "inversify";
+import "reflect-metadata";
 import {
   CircularNode,
   configureModelElement,
