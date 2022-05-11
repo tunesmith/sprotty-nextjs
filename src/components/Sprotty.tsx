@@ -1,4 +1,11 @@
-import { Bounds, Point, SEdge, SModelElement, SNode } from "sprotty-protocol";
+import {
+  Bounds,
+  Point,
+  SEdge,
+  SGraph,
+  SModelElement,
+  SNode,
+} from "sprotty-protocol";
 import createContainer from "./di.config";
 import { IActionDispatcher, LocalModelSource, TYPES } from "sprotty";
 
@@ -54,6 +61,15 @@ const Sprotty = () => {
   const container = createContainer();
   const dispatcher = container.get<IActionDispatcher>(TYPES.IActionDispatcher);
   const modelSource = container.get<LocalModelSource>(TYPES.ModelSource);
+
+  // Initialize model
+  const node0 = {
+    id: "node0",
+    type: "node:circle",
+    position: { x: 100, y: 100 },
+    size: { width: NODE_SIZE, height: NODE_SIZE },
+  };
+  const graph: SGraph = { id: "graph", type: "graph", children: [node0] };
 
   return (
     <div>
