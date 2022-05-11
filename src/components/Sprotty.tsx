@@ -8,6 +8,7 @@ import {
 } from "sprotty-protocol";
 import createContainer from "./di.config";
 import { IActionDispatcher, LocalModelSource, TYPES } from "sprotty";
+import { useEffect } from "react";
 
 const NODE_SIZE = 60;
 
@@ -70,6 +71,20 @@ const Sprotty = () => {
     size: { width: NODE_SIZE, height: NODE_SIZE },
   };
   const graph: SGraph = { id: "graph", type: "graph", children: [node0] };
+
+  useEffect(() => {
+    const load = async () => {
+      const initialViewport = await modelSource.getViewport();
+      for (let i = 0; i < 20; ++i) {
+        const newElements = addNode(getVisibleBounds(initialViewport));
+        graph.children.push(...newElements);
+      }
+
+      // Run
+      await modelSource.setModel(graph);
+    };
+    load().then();
+  }, []);
 
   return (
     <div>

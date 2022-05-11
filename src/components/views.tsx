@@ -1,3 +1,6 @@
+/** @jsx svg */
+/** @jsxRuntime classic */
+import { svg } from "sprotty/lib/lib/jsx";
 import { RenderingContext, ShapeView, SNode } from "sprotty";
 import { VNode } from "snabbdom";
 import { injectable } from "inversify";
